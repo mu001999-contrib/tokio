@@ -400,8 +400,12 @@ fn parse_knobs(mut input: ItemFn, is_test: bool, config: FinalConfig) -> TokenSt
         // token, not the whole tokens. We can work around this limitation by
         // using the first/last span of the tokens like
         // `syn::Error::new_spanned` does.
-        let start = last_stmt.next().map_or_else(Span::call_site, |t| t.span());
-        let end = last_stmt.last().map_or(start, |t| t.span());
+        let start = last_stmt
+            .next()
+            .map_or_else(Span::call_site, |t| Span::call_site().located_at(t.span()));
+        let end = last_stmt
+            .last()
+            .map_or(start, |t| Span::call_site().located_at(t.span()));
         (start, end)
     };
 
