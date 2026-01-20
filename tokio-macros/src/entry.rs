@@ -409,7 +409,7 @@ fn parse_knobs(mut input: ItemFn, is_test: bool, config: FinalConfig) -> TokenSt
         .crate_name
         .map(ToTokens::into_token_stream)
         .unwrap_or_else(|| {
-            let ident = Ident::new("tokio", Span::call_site().located_at(last_stmt_start_span));
+            let ident = Ident::new("tokio", last_stmt_start_span);
             ident.into_token_stream()
         });
 
